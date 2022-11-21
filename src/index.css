@@ -11,4 +11,14 @@
 body {
   margin: 0;
   font-family: 'Space Grotesk';
+  font-weight: 500;
+}
+
+h1 {
+  font-weight: 500;
+}
+
+input,
+button {
+  font-family: 'Space Grotesk';
 }
