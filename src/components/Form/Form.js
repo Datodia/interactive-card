@@ -23,17 +23,41 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
     }
 
 
+    const nameRegex = /^[a-zA-Z ]*$/g
+    const numberRegex = /^[0-9 ]*$/g
+    // number = Number(number)
+
     const sumbit = (e) => {
         e.preventDefault()
         if (name === "" || name === null) {
             setNameError(`Can't be blank`)
         }
+        else if (!nameRegex.test(name)) {
+            setNameError(`Wrong format type only letters`)
+        }
+        console.log(nameRegex.test(name))
+
 
         if (number === '' || number === null) {
             setCardError(`Can't be blank`)
-        } else if (isNaN(+number)) {
-            setCardError(`Wrong Format only numbers`)
         }
+        else if (number.length <= 18) {
+            setCardError(`Fill 16 digit`)
+        }
+        // else if (!numberRegex.test(number)) {
+
+        //     setCardError(`Wrong Format only numbers`)
+        // }
+        // else if (!isNaN(+number)) {
+        //     setCardError(`Wrong Format only numbers`)
+        // }
+
+        console.log(!isNaN(+number))
+
+        // console.log(numberRegex.test(number))
+        console.log(typeof (number))
+        console.log(number)
+        //nameValidatiod()
 
     }
 
