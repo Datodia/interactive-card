@@ -1,26 +1,63 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const Form = ({ name, setName, number, setNumber }) => {
+export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM, yy, setYY, nameError, setNameError, cardError, setCardError, mmError, setMmError, yyError, setYyError, cvcError, setCvcError }) => {
+
+    const nameChange = (e) => {
+        setName(e.target.value)
+        setNameError('')
+    }
+    const numberChange = (e) => {
+        let cardNum = e.target.value.replace(/(.{4})/g, "$1 ");
+        setNumber(cardNum)
+        setCardError('')
+    }
+    const cvcChange = (e) => {
+        setCvc(e.target.value)
+    }
+    const mmChange = (e) => {
+        setMM(e.target.value)
+    }
+    const yyChange = (e) => {
+        setYY(e.target.value)
+    }
+
+
+    const sumbit = (e) => {
+        e.preventDefault()
+        if (name === "" || name === null) {
+            setNameError(`Can't be blank`)
+        }
+
+        if (number === '' || number === null) {
+            setCardError(`Can't be blank`)
+        } else if (isNaN(+number)) {
+            setCardError(`Wrong Format only numbers`)
+        }
+
+    }
+
 
     return (
-        <FormDiv>
+        <FormDiv onSubmit={sumbit}>
             <Wraper>
                 <Label>Cardholder Name</Label>
-                <InputDiv type={'text'} placeholder='e.g. Jane Appleseed' />
+                <InputDiv nameError={nameError} type={'text'} onChange={nameChange} value={name} maxLength={30} placeholder='e.g. Jane Appleseed' />
+                <NameEroor>{nameError}</NameEroor>
 
                 <Label>Card Number</Label>
-                <InputDiv type={"text"} placeholder="e.g. 1234 5678 9123 0000" />
+                <CardDiv cardError={cardError} type={"text"} onChange={numberChange} maxLength={16} placeholder="e.g. 1234 5678 9123 0000" />
+                <CardError>{cardError}</CardError>
 
                 <Div>
                     <Date>
                         <Label>Exp. Date (MM/YY)</Label>
-                        <DateInput placeholder='MM' />
-                        <DateInput placeholder='YY' />
+                        <DateInput onChange={mmChange} maxLength={2} placeholder='MM' />
+                        <DateInput onChange={yyChange} maxLength={2} placeholder='YY' />
                     </Date>
                     <Cvc>
                         <Label>CVC</Label>
-                        <CvcInput placeholder='e.g. 123' />
+                        <CvcInput onChange={cvcChange} maxLength={3} placeholder='e.g. 123' />
                     </Cvc>
                 </Div>
 
@@ -49,8 +86,22 @@ const InputDiv = styled.input`
     height: 45px;
     font-size: 18px;
     padding: 0 10px;
-    border: 1px solid #DFDEE0;
-    margin: 9px 0 20px 0;
+    border: ${props => props.nameError ? "1px solid red" : "1px solid #DFDEE0"} ;
+    margin: 9px 0 0 0;
+    outline: none;
+    border-radius: 8px;
+
+    &:focus{
+        border: 1px solid #610595;
+    }
+`
+const CardDiv = styled.input`
+    width: 327px;
+    height: 45px;
+    font-size: 18px;
+    padding: 0 10px;
+    border: ${props => props.cardError ? "1px solid red" : "1px solid #DFDEE0"} ;
+    margin: 9px 0 0 0;
     outline: none;
     border-radius: 8px;
 
@@ -95,4 +146,17 @@ const Submit = styled.input`
     border:  none;
     border-radius: 8px;
     cursor: pointer;
+`
+
+const NameEroor = styled.h1`
+    font-size: 12px;
+    color: #FF5050;
+    margin-top: 8px;
+    margin-bottom: 20px;
+`
+const CardError = styled.h1`
+    font-size: 12px;
+    color: #FF5050;
+    margin-top: 8px;
+    margin-bottom: 20px;
 `

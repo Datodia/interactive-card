@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const Card = ({ name, number }) => {
+export const Card = ({ name, number, cvc, mm, yy }) => {
 
-    const text = 992;
+
 
     return (
         <Wrapper>
             <Back>
-                <CCV>{text}</CCV>
+                <CCV>{cvc || "000"}</CCV>
             </Back>
             <Front>
                 <Circles>
@@ -18,7 +18,7 @@ export const Card = ({ name, number }) => {
                 <Input>{number || "0000 0000 0000 0000"}</Input>
                 <Info>
                     <Name>{name || "jane APPLESEED"}</Name>
-                    <Date>00/00</Date>
+                    <Date>{mm || '00'}/{yy || '00'}</Date>
                 </Info>
             </Front>
         </Wrapper>
