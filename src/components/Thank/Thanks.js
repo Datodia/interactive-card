@@ -1,13 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const Thanks = () => {
+export const Thanks = ({ setShowThank, setName, setNumber, setMM, setYY, setCvc }) => {
+
+    const handleClick = () => {
+        setName(null)
+        setNumber(null)
+        setMM(null)
+        setYY(null)
+        setCvc(null)
+        setShowThank(true)
+    }
+
     return (
         <Wrapper>
             <Img src='assets/complete.svg' />
             <Thank>THANK YOU!</Thank>
             <Desc>We’ve added your card details</Desc>
-            <Submit>Continue</Submit>
+            <Submit onClick={handleClick}>Continue</Submit>
         </Wrapper>
     )
 }
