@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import inputMask from 'react-input-mask'
 
 export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM, yy, setYY, nameError, setNameError, cardError, setCardError, mmError, setMmError, yyError, setYyError, cvcError, setCvcError }) => {
 
@@ -23,17 +24,39 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
     }
 
 
+    const nameRegex = /^[a-zA-Z ]*$/g
+    const numberRegex = /^[\d\s]+$/i
+
     const sumbit = (e) => {
         e.preventDefault()
         if (name === "" || name === null) {
             setNameError(`Can't be blank`)
         }
+        else if (!nameRegex.test(name)) {
+            setNameError(`Wrong format type only letters`)
+        }
+        console.log(nameRegex.test(name))
+
 
         if (number === '' || number === null) {
             setCardError(`Can't be blank`)
-        } else if (isNaN(+number)) {
+        }
+        else if (number.length <= 18) {
+            setCardError(`Fill 16 digit`)
+        }
+        else if (!numberRegex.test(number)) {
             setCardError(`Wrong Format only numbers`)
         }
+        // else if (!isNaN(+number)) {
+        //     setCardError(`Wrong Format only numbers`)
+        // }
+
+        //console.log(!isNaN(+number))
+
+        console.log(numberRegex.test(number))
+        //console.log(typeof (number))
+        //console.log(number)
+        //nameValidatiod()
 
     }
 
@@ -46,7 +69,7 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
                 <NameEroor>{nameError}</NameEroor>
 
                 <Label>Card Number</Label>
-                <CardDiv cardError={cardError} type={"text"} onChange={numberChange} maxLength={16} placeholder="e.g. 1234 5678 9123 0000" />
+                <MaskingInput cardError={cardError} type={"text"} mask={'9999 9999 9999 9999'} onChange={numberChange} placeholder="e.g. 1234 5678 9123 0000" />
                 <CardError>{cardError}</CardError>
 
                 <Div>
@@ -95,6 +118,22 @@ const InputDiv = styled.input`
         border: 1px solid #610595;
     }
 `
+
+const MaskingInput = styled(inputMask)`
+    width: 327px;
+    height: 45px;
+    font-size: 18px;
+    padding: 0 10px;
+    border: ${props => props.cardError ? "1px solid red" : "1px solid #DFDEE0"} ;
+    margin: 9px 0 0 0;
+    outline: none;
+    border-radius: 8px;
+
+    &:focus{
+        border: 1px solid #610595;
+    }
+`
+
 const CardDiv = styled.input`
     width: 327px;
     height: 45px;
