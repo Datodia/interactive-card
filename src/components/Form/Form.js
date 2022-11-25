@@ -9,23 +9,27 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
         setNameError('')
     }
     const numberChange = (e) => {
-        let cardNum = e.target.value.replace(/(.{4})/g, "$1 ");
-        setNumber(cardNum)
+        setNumber(e.target.value)
         setCardError('')
     }
     const cvcChange = (e) => {
         setCvc(e.target.value)
+        setCvcError("")
     }
     const mmChange = (e) => {
         setMM(e.target.value)
+        setMmError("")
     }
     const yyChange = (e) => {
         setYY(e.target.value)
+        setMmError('')
+        setYyError('')
     }
 
 
     const nameRegex = /^[a-zA-Z ]*$/g
     const numberRegex = /^[\d\s]+$/i
+    const mmRegex = /^[\d]+$/i
 
     const sumbit = (e) => {
         e.preventDefault()
@@ -47,16 +51,33 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
         else if (!numberRegex.test(number)) {
             setCardError(`Wrong Format only numbers`)
         }
-        // else if (!isNaN(+number)) {
-        //     setCardError(`Wrong Format only numbers`)
-        // }
 
-        //console.log(!isNaN(+number))
+        if (mm === "" || mm === null) {
+            setMmError(`Can't be blank`)
+        } else if (mm.length < 2) {
+            setMmError(`Fill 2 digit`)
+        }
+        else if (!mmRegex.test(mm)) {
+            setMmError(`Wrong Format`)
+        }
 
-        console.log(numberRegex.test(number))
-        //console.log(typeof (number))
-        //console.log(number)
-        //nameValidatiod()
+
+        if (yy === "" || yy === null) {
+            setYyError(`Can't be blank`)
+        } else if (yy.length < 2) {
+            setYyError(`Fill 2 digit`)
+        }
+        else if (!mmRegex.test(yy)) {
+            setYyError(`Wrong Format`)
+        }
+
+        if (cvc === "" || cvc === null) {
+            setCvcError(`Can't be blank`)
+        } else if (cvc.length < 3) {
+            setCvcError('Fill 3 digit')
+        } else if (!mmRegex.test(cvc)) {
+            setCvcError("Wrong format, fill only digit")
+        }
 
     }
 
@@ -69,18 +90,20 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
                 <NameEroor>{nameError}</NameEroor>
 
                 <Label>Card Number</Label>
-                <MaskingInput cardError={cardError} type={"text"} mask={'9999 9999 9999 9999'} onChange={numberChange} placeholder="e.g. 1234 5678 9123 0000" />
+                <MaskingInput cardError={cardError} maskChar={null} mask={'**** **** **** ****'} onChange={numberChange} placeholder="e.g. 1234 5678 9123 0000" />
                 <CardError>{cardError}</CardError>
 
                 <Div>
                     <Date>
                         <Label>Exp. Date (MM/YY)</Label>
-                        <DateInput onChange={mmChange} maxLength={2} placeholder='MM' />
-                        <DateInput onChange={yyChange} maxLength={2} placeholder='YY' />
+                        <MMInput mmError={mmError} onChange={mmChange} maxLength={2} placeholder='MM' />
+                        <YYInput yyError={yyError} onChange={yyChange} maxLength={2} placeholder='YY' />
+                        <DateError>{mmError || yyError}</DateError>
                     </Date>
                     <Cvc>
                         <Label>CVC</Label>
-                        <CvcInput onChange={cvcChange} maxLength={3} placeholder='e.g. 123' />
+                        <CvcInput cvcError={cvcError} onChange={cvcChange} maxLength={3} placeholder='e.g. 123' />
+                        <CvcError>{cvcError}</CvcError>
                     </Cvc>
                 </Div>
 
@@ -134,20 +157,6 @@ const MaskingInput = styled(inputMask)`
     }
 `
 
-const CardDiv = styled.input`
-    width: 327px;
-    height: 45px;
-    font-size: 18px;
-    padding: 0 10px;
-    border: ${props => props.cardError ? "1px solid red" : "1px solid #DFDEE0"} ;
-    margin: 9px 0 0 0;
-    outline: none;
-    border-radius: 8px;
-
-    &:focus{
-        border: 1px solid #610595;
-    }
-`
 
 const Div = styled.div`
     display: flex;
@@ -157,23 +166,44 @@ const Date = styled.div`
 `
 const Cvc = styled.div`
 `
-const DateInput = styled.input`
+const MMInput = styled.input`
     width: 72px;
     height: 45px;
-    border: 1px solid #DFDEE0;
+    border: ${props => props.mmError ? "1px solid red" : "1px solid #DFDEE0"};
+    outline: none;
     font-size: 18px;
     padding: 11px 16px;
     border-radius: 8px;
-    margin: 9px 7px 20px 0;
+    margin: 9px 7px 0px 0;
+    &:focus{
+        border: 1px solid #610595;
+    }
+`
+const YYInput = styled.input`
+    width: 72px;
+    height: 45px;
+    border:  ${props => props.yyError ? "1px solid red" : "1px solid #DFDEE0"} ;
+    outline: none;
+    font-size: 18px;
+    padding: 11px 16px;
+    border-radius: 8px;
+    margin: 9px 7px 0px 0;
+    &:focus{
+        border: 1px solid #610595;
+    }
 `
 const CvcInput = styled.input`
     width: 164px;
     height: 45px;
-    border: 1px solid #DFDEE0;
+    border: ${props => props.cvcError ? "1px solid red" : "1px solid #DFDEE0"};
     font-size: 18px;
     padding: 11px 16px;
     border-radius: 8px;
-    margin: 9px 0 20px 0;
+    outline: none;
+    margin: 9px 0 0px 0; 
+    &:focus{
+        border: 1px solid #610595;
+    }
 `
 
 const Submit = styled.input`
@@ -194,6 +224,20 @@ const NameEroor = styled.h1`
     margin-bottom: 20px;
 `
 const CardError = styled.h1`
+    font-size: 12px;
+    color: #FF5050;
+    margin-top: 8px;
+    margin-bottom: 20px;
+`
+
+const DateError = styled.h1`
+    font-size: 12px;
+    color: #FF5050;
+    margin-top: 8px;
+    margin-bottom: 20px;
+`
+
+const CvcError = styled.h1`
     font-size: 12px;
     color: #FF5050;
     margin-top: 8px;
