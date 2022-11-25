@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import inputMask from 'react-input-mask'
 
-export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM, yy, setYY, nameError, setNameError, cardError, setCardError, mmError, setMmError, yyError, setYyError, cvcError, setCvcError }) => {
+export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM, yy, setYY, nameError, setNameError, cardError, setCardError, mmError, setMmError, yyError, setYyError, cvcError, setCvcError, setShowThank }) => {
 
     const nameChange = (e) => {
         setName(e.target.value)
@@ -27,7 +27,7 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
     }
 
 
-    const nameRegex = /^[a-zA-Z ]*$/g
+    const nameRegex = /^[a-zA-Z ]*$/i
     const numberRegex = /^[\d\s]+$/i
     const mmRegex = /^[\d]+$/i
 
@@ -39,7 +39,6 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
         else if (!nameRegex.test(name)) {
             setNameError(`Wrong format type only letters`)
         }
-        console.log(nameRegex.test(name))
 
 
         if (number === '' || number === null) {
@@ -79,7 +78,19 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
             setCvcError("Wrong format, fill only digit")
         }
 
+
+        if (numberRegex.test(number) && number.length > 18
+            && nameRegex.test(name) && name !== "" && name !== null
+            && mmRegex.test(yy) && yy.length > 1
+            && mmRegex.test(mm) && mm.length > 1
+            && mmRegex.test(cvc) && cvc.length > 2) {
+            setShowThank(false)
+        }
+
+
     }
+
+
 
 
     return (
