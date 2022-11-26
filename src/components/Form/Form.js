@@ -84,14 +84,11 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
             && nameRegex.test(name) && name !== "" && name !== null
             && mmRegex.test(yy) && yy.length > 1
             && mmRegex.test(mm) && mm.length > 1
-            && mmRegex.test(cvc) && cvc.length > 2) {
+            && mmRegex.test(cvc) && cvc.length > 2
+            && parseInt(mm) <= 12) {
             setShowThank(false)
         }
-
-
     }
-
-
 
 
     return (
