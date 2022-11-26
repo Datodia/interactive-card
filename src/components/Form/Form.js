@@ -58,8 +58,9 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
         }
         else if (!mmRegex.test(mm)) {
             setMmError(`Wrong Format`)
+        } else if (parseInt(mm) > 12) {
+            setMmError(`Can't be more than 12`)
         }
-
 
         if (yy === "" || yy === null) {
             setYyError(`Can't be blank`)
@@ -126,9 +127,26 @@ export const Form = ({ name, setName, number, setNumber, cvc, setCvc, mm, setMM,
 
 const FormDiv = styled.form`
     width: 327px;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     margin: auto;
     margin-top: 91px;
+    @media screen and (min-width: 900px) {
+        width: 350px;
+        display: flex;
+        margin-top: 0;
+        height: 100vh;
+        margin-left: 200px;
+        align-items: center;
+    }
+    @media screen and (min-width: 1200px) {
+        width: 381px;
+        display: flex;
+        height: 100vh;
+        margin-left: auto;
+        justify-content: center !important; 
+        align-items: center;
+    }
+    
 `
 
 const Wraper = styled.div`
@@ -137,9 +155,12 @@ const Wraper = styled.div`
 
 const Label = styled.label`
     font-size: 12px;
+    @media screen and (min-width: 1200px) {
+        font-size: 14px;
+    }
 `
 const InputDiv = styled.input`
-    width: 327px;
+    width: 100%;
     height: 45px;
     font-size: 18px;
     padding: 0 10px;
@@ -154,7 +175,7 @@ const InputDiv = styled.input`
 `
 
 const MaskingInput = styled(inputMask)`
-    width: 327px;
+    width: 100%;
     height: 45px;
     font-size: 18px;
     padding: 0 10px;
@@ -189,6 +210,9 @@ const MMInput = styled.input`
     &:focus{
         border: 1px solid #610595;
     }
+    @media screen and (min-width: 1200px) {
+        width: 87px;
+    }
 `
 const YYInput = styled.input`
     width: 72px;
@@ -201,6 +225,9 @@ const YYInput = styled.input`
     margin: 9px 7px 0px 0;
     &:focus{
         border: 1px solid #610595;
+    }
+    @media screen and (min-width: 1200px) {
+        width: 87px;
     }
 `
 const CvcInput = styled.input`
@@ -218,7 +245,7 @@ const CvcInput = styled.input`
 `
 
 const Submit = styled.input`
-    width: 327px;
+    width: 100%;
     height: 54px;
     background-color: #21092F;
     font-size: 18px;
@@ -226,6 +253,10 @@ const Submit = styled.input`
     border:  none;
     border-radius: 8px;
     cursor: pointer;
+    &:hover{
+        background-color: #4639fa;
+        transition: all .5s;
+    }
 `
 
 const NameEroor = styled.h1`
@@ -233,12 +264,18 @@ const NameEroor = styled.h1`
     color: #FF5050;
     margin-top: 8px;
     margin-bottom: 20px;
+    @media screen and (min-width: 1200px) {
+        font-size: 13px;
+    }
 `
 const CardError = styled.h1`
     font-size: 12px;
     color: #FF5050;
     margin-top: 8px;
     margin-bottom: 20px;
+    @media screen and (min-width: 1200px) {
+        font-size: 13px;
+    }
 `
 
 const DateError = styled.h1`
@@ -246,6 +283,9 @@ const DateError = styled.h1`
     color: #FF5050;
     margin-top: 8px;
     margin-bottom: 20px;
+    @media screen and (min-width: 1200px) {
+        font-size: 13px;
+    }
 `
 
 const CvcError = styled.h1`
@@ -253,4 +293,7 @@ const CvcError = styled.h1`
     color: #FF5050;
     margin-top: 8px;
     margin-bottom: 20px;
+    @media screen and (min-width: 1200px) {
+        font-size: 13px;
+    }
 `

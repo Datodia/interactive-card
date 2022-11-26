@@ -31,6 +31,22 @@ const Wrapper = styled.div`
     justify-content: center;
     flex-direction:column;
     align-items: center;
+    @media screen and (min-width: 900px) {
+        width: 350px;
+        display: flex;
+        margin-top: 0;
+        height: 100vh;
+        margin-left: 200px;
+        align-items: center;
+    }
+    @media screen and (min-width: 1200px) {
+        width: 381px;
+        display: flex;
+        height: 100vh;
+        margin-left: auto;
+        justify-content: center !important; 
+        align-items: center;
+    }
 `
 
 const Img = styled.img`
@@ -58,4 +74,8 @@ const Submit = styled.button`
     margin-top: 48px;
     cursor: pointer;
     border-radius: 8px;
+    &:hover{
+        background-color: #4639fa;
+        transition: all .5s;
+    }
 `
